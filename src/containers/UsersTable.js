@@ -1,51 +1,69 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
+import Container from '@material-ui/core/Container';
+import MaterialTable from 'material-table';
 import {
-    fetchAllUsers,
+    getAllUsers,
+    postNewUser,
+    deleteUser,
+    updateUser,
 } from "../actions/usersActions";
-import AddUserForm from "./AddUserForm";
 
 class UsersTable extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            columns: [
+                { title: 'Name', field: 'name' },
+                { title: 'Age', field: 'age' },
+            ],
+        }
+    }
     componentDidMount() {
-        const {fetchAllUsers} = this.props;
+        const {getAllUsers} = this.props;
         
-        fetchAllUsers();
+        getAllUsers();
     }
 
     render () {
-        const {users} = this.props;
-        
+        const {postNewUser, deleteUser, updateUser} = this.props;
+
         return (
-            <div>
-                <AddUserForm/>
-                <table>
-                    <tbody>
-                    <tr>
-                        <td>id</td>
-                        <td>name</td>
-                        <td>age</td>
-                    </tr>
-                    {
-                        users.map(user =>
-                            <tr key={user.id}>
-                                <td>{user.id}</td>
-                                <td>{user.name}</td>
-                                <td>{user.age}</td>
-                            </tr>
-                        )
-                    }
-                    </tbody>
-                </table>
-            </div>
+            <Container maxWidth={ "sm" }>
+                <MaterialTable
+                    title="Editable Example"
+                    columns={ this.state.columns }
+                    data={ this.props.users }
+                    editable={ {
+                        onRowAdd: newUser => {
+                            const newUserInJSON = JSON.stringify(newUser);
+                            postNewUser(newUserInJSON);
+                            return new Promise(resolve => resolve());
+                        },
+                        onRowUpdate: (newData, oldData) => {
+                            const updatedUser = Object.assign({}, oldData, newData);
+                            updateUser(updatedUser);
+                            return new Promise(resolve => resolve());
+                        },
+                        onRowDelete: userToDelete => {
+                            deleteUser(userToDelete);
+                            return new Promise(resolve => resolve());
+                        }
+                    } }
+                />
+            </Container>
         );
     }
 }
 
 UsersTable.propTypes = {
     users: PropTypes.array,
-    fetchAllUsers: PropTypes.func,
+    getAllUsers: PropTypes.func,
+    postNewUser: PropTypes.func,
+    deleteUser: PropTypes.func,
+    updateUser: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -53,7 +71,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-    fetchAllUsers,
+    getAllUsers,
+    postNewUser,
+    deleteUser,
+    updateUser,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UsersTable);
