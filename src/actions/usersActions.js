@@ -97,12 +97,6 @@ export const deleteUser = (user) => {
 
 //====================================================================
 
-export const updateUser = (updatedUser) => {
-    return {
-        type: UPDATE_USER,
-        updatedUser,
-    };
-};
 export const updateUserStart = () => {
     return {
         type: UPDATE_USER_START,
@@ -118,6 +112,12 @@ export const updateUserFail = (errorMessage) => {
     return {
         type: UPDATE_USER_FAIL,
         errorMessage,
+    };
+};
+export const updateUser = (updatedUser) => {
+    return {
+        type: UPDATE_USER,
+        updatedUser,
     };
 };
 
