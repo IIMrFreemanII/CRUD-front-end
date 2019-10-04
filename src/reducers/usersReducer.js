@@ -106,6 +106,8 @@ export const usersReducer = (state = initialState, action) => {
                 deleteUserErrorMessage: action.errorMessage,
             }
         }
+
+        //=================================================
         case UPDATE_USER_START: {
             return {
                 ...state,

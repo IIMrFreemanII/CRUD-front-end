@@ -3,10 +3,10 @@ export const GET_ALL_USERS_START = 'GET_ALL_USERS_START';
 export const GET_ALL_USERS_SUCCESS = 'GET_ALL_USERS_SUCCESS';
 export const GET_ALL_USERS_FAIL = 'GET_ALL_USERS_FAIL';
 
+export const POST_NEW_USER = 'POST_NEW_USER';
 export const POST_NEW_USER_START = 'POST_NEW_USER_START';
 export const POST_NEW_USER_SUCCESS = 'POST_NEW_USER_SUCCESS';
 export const POST_NEW_USER_FAIL = 'POST_NEW_USER_FAIL';
-export const POST_NEW_USER = 'POST_NEW_USER';
 
 export const DELETE_USER = 'DELETE_USER';
 export const DELETE_USER_START = 'DELETE_USER_START';
@@ -32,7 +32,7 @@ export const getAllUsersSuccess = (data) => {
 export const getAllUsersFail = (errorMessage) => {
     return {
         type: GET_ALL_USERS_FAIL,
-        errorMessage
+        errorMessage,
     };
 };
 export const getAllUsers = () => {
